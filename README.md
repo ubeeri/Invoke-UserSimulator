@@ -53,3 +53,6 @@ Run all simulation functionality on remote hosts configured in the config.xml fi
 `PS>Invoke-UserSimulator -ConfigXML .\config.xml -All`
 
 *View the sample.xml file for an example of the file ConfigXML takes.*
+
+### Walkthrough
+You can view a video walkthrough of the tool here: https://www.youtube.com/watch?v=lsC8mBKRZrs
