@@ -1,4 +1,55 @@
 ﻿function Invoke-UserSimulator {
+<#
+.SYNOPSIS
+
+Simulates common user behaviour on local and remote Windows hosts.
+Authors:  Barrett Adams (@peewpw) and Chris Myers (@swizzlez_)
+
+.DESCRIPTION
+
+Performs different actions to simulate real user activity and is intended for use in a lab
+environment. It will browse the internet using Internet Explorer, attempt to map non-existant
+network shares, and open emails with Outlook, including embeded links and attachments.
+
+.PARAMETER Standalone
+
+Define if the script should run as a standalone script on the localhost or on remote systems.
+
+.PARAMETER ConfigXML
+
+The configuration xml file to use when running on remote hosts.
+
+.PARAMETER IE
+
+Run the Internet Explorer simulation.
+
+.PARAMETER Shares
+
+ Run the mapping shares simulation.
+ 
+.PARAMETER Email
+
+Run the opening email simulation.
+
+.PARAMETER All
+
+Run all script simulation functions (IE, Shares, Email).
+
+.EXAMPLE
+
+Import the script modules:
+PS>Import-Module .\Invoke-UserSimulator.ps1
+
+Run only the Internet Explorer function on the local host:
+PS>Invoke-UserSimulator -StandAlone -IE
+
+Configure remote hosts prior to running the script remotely:
+PS>Invoke-ConfigureHosts -ConfigXML .\config.xml
+
+Run all simulation functionality on remote hosts configured in the config.xml file:
+PS>Invoke-UserSimulator -ConfigXML .\config.xml -All
+
+#>
     [CmdletBinding()]
     Param(
 		[Parameter(Mandatory=$False)]
@@ -385,6 +436,30 @@ function Start-RemoteUserSimTask {
 }
 
 function Invoke-ConfigureHosts {
+<#
+.SYNOPSIS
+
+Configure remote hosts in preperation for Invoke-UserSimulator
+
+.DESCRIPTION
+
+Sets some registry keys to allow programatic access to Outlook and prevent the "welcome" window
+in Internet Explorer. Also adds the user to run as to the "Remote Desktop Users" group on the
+remote computer.
+
+.PARAMETER ConfigXML
+
+The configuration xml file to use for host configuration on remote hosts.
+
+.EXAMPLE
+
+Import the script modules:
+PS>Import-Module .\Invoke-UserSimulator.ps1
+
+Configure remote hosts prior to running the script remotely:
+PS>Invoke-ConfigureHosts -ConfigXML .\config.xml
+
+#>
     Param(
 		[Parameter(Position = 0, Mandatory=$True)]
 		[String]$ConfigXML
